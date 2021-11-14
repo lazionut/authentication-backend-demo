@@ -28,6 +28,7 @@ createConnection().then(async connection => {
     // setup express app here
     // ...
 
+    app.set('env', process.env.APP_ENV);
     // start express server
     app.listen(3000);
 
