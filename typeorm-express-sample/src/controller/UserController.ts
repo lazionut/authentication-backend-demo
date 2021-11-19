@@ -1,113 +1,182 @@
-import {getRepository} from "typeorm";
-import {NextFunction, Request, Response} from "express";
-import {User} from "../entity/User";
+import { getRepository } from "typeorm";
+import { NextFunction, Request, Response } from "express";
+import { User } from "../entity/User";
 
 export class UserController {
+  private userRepository = getRepository(User);
 
-    private userRepository = getRepository(User);
+  async findAllUsers(request: Request, response: Response, next: NextFunction) {
+    return this.userRepository.find();
+  }
 
-    async all(request: Request, response: Response, next: NextFunction) { 
-        return this.userRepository.find();
-    } 
+  async findUser(request: Request, response: Response, next: NextFunction) {
+    if (this.userRepository.findOne(request.username) !== undefined)
+      return this.userRepository.findOne(request.username);
 
-    async one(request: Request, response: Response, next: NextFunction) { 
-        if(this.userRepository.findOne(request.params.id) !== undefined)
-            return this.userRepository.findOne(request.params.id);
-        
-        response.status(404);
-        return "User doesn't exist!"
-    } 
+    response.status(404);
+    return "Error: User doesn't exist";
+  }
 
-    async registerUser(request: Request, response: Response, next: NextFunction) {
-        const body = request.body;
-        const userEmail = body.email;
-        const userName = body.username;
-        const userPassword = body.password;
+  async findEmail(request: Request, response: Response, next: NextFunction) {
+    if (this.userRepository.findOne(request.email) !== undefined)
+      return this.userRepository.findOne(request.email);
 
-        let user = await this.userRepository.findOne({
-            where: {
-                email: userEmail,
-                username: userName            
-            }
-        });
+    response.status(404);
+    return "Error: User doesn't exist";
+  }
 
-        if (user) {
-            response.status(404);
-            return "User already exist!";
-        }
+  async registerUser(request: Request, response: Response, next: NextFunction) {
+    const body = request.body;
+    const userEmail = body.email;
+    const userName = body.username;
+    const userPassword = body.password;
 
-        this.userRepository.save(request.body);
-
-        return "New user created!";
+    if (
+      userEmail === undefined ||
+      userName === undefined ||
+      userPassword === undefined
+    ) {
+      response.status(404);
+      return "Error: Email, username and password are required";
     }
 
-    async loginUser(request: Request, response: Response, next: NextFunction) {
-        const body = request.body;
-        const userEmail = body.email;
-        const userName = body.username;
-        const userPassword = body.password;
+    let userByEmail = await this.userRepository.findOne({
+      where: {
+        email: userEmail,
+      },
+    });
 
-        let userByEmail = await this.userRepository.findOne({
-            where: {
-                userMail: userEmail,
-                password: userPassword
-            }
-        });
+    let userByUsername = await this.userRepository.findOne({
+      where: {
+        username: userName,
+      },
+    });
 
-        let userByUsername = await this.userRepository.findOne({
-            where: {
-                username: userName,
-                password: userPassword
-            }
-        });
-
-        if (!this.userRepository.find(userByEmail) || !this.userRepository.find(userByUsername)) {
-            response.status(404);
-            return "User doesn't exist!";
-        }
+    if (userByEmail || userByUsername) {
+      response.status(404);
+      return "Error: User already exist";
     }
 
-    async removeUser(request: Request, response: Response, next: NextFunction) {
-        const body = request.body;
-        const userMail = body.email;
-        const userName = body.username;
-        const userPassword = body.password;
+    this.userRepository.save(request.body);
 
-        let user = await this.userRepository.findOne({
-            where: {
-                userMail: userMail,
-                username: userName,
-                password: userPassword,
-            }
-        });
+    return "New user created";
+  }
 
-        if (!this.userRepository.find(user)) {
-            response.status(404);
-            return "User doesn't exist!";
-        }
+  async loginUser(request: Request, response: Response, next: NextFunction) {
+    const body = request.body;
+    const userEmail = body.email;
+    const userName = body.username;
+    const userPassword = body.password;
 
-        this.userRepository.remove(user);
+    let user = null;
+
+    if (
+      (userEmail === undefined && userName === undefined) ||
+      userPassword === undefined
+    ) {
+      response.status(404);
+      return "Error: Email/username and password are required";
     }
 
-    async updateUser(request: Request, response: Response, next: NextFunction) {
-        const body = request.body;
-        const userMail = body.email;
-        const userName = body.username;
-        const userPassword = body.password;
+    if (userEmail) {
+      user = await this.userRepository.findOne({
+        where: {
+          email: userEmail,
+          password: userPassword,
+        },
+      });
 
-        let user = await this.userRepository.findOne({
-            where: {
-                userMail: userMail,
-                username: userName,
-                userPassword: userPassword
-            }
-        });
+      return this.userRepository.findOne(request.email);
+    } else if (userName) {
+      user = await this.userRepository.findOne({
+        where: {
+          username: userName,
+          password: userPassword,
+        },
+      });
 
-        if (!this.userRepository.find(user)) {
-            response.status(404);
-            return "User doesn't exist!";
-        }
-
-        this.userRepository.save(user);
+      return this.userRepository.findOne(request.username);
     }
+
+    if (user === undefined) {
+      response.status(404);
+      return "Error: User not found";
+    }
+  }
+
+  async updateUser(request: Request, response: Response, next: NextFunction) {
+    const body = request.body;
+    const userEmail = body.email;
+    const userName = body.username;
+    const userPassword = body.password;
+
+    if (
+      userEmail === undefined &&
+      userName === undefined &&
+      userPassword === undefined
+    ) {
+      response.status(404);
+      return "Error: Email, username or password are required";
+    }
+
+    let user = await this.userRepository.findOne(request.params.id);
+
+    if (user === undefined) {
+      response.status(404);
+      return "Error: User not found";
+    }
+
+    /*let userByEmail = await this.userRepository.findOne({
+      where: {
+        email: userEmail,
+      },
+    });
+
+    let userByUsername = await this.userRepository.findOne({
+      where: {
+        username: userName,
+      },
+    });
+
+    if (userByEmail || userByUsername) {
+      response.status(404);
+      return "Error: User already exist";
+    }*/
+
+    if (userEmail) {
+      user.email = userEmail;
+    }
+    if (userName) {
+      user.username = userName;
+    }
+    if (userPassword) {
+      user.password = userPassword;
+    }
+
+    this.userRepository.save(user);
+    return "User updated";
+  }
+
+  async removeUser(request: Request, response: Response, next: NextFunction) {
+    const body = request.body;
+    const userEmail = body.email;
+    const userName = body.username;
+    const userPassword = body.password;
+
+    let user = await this.userRepository.findOne({
+      where: {
+        email: userEmail,
+        username: userName,
+        password: userPassword,
+      },
+    });
+
+    if (user === undefined) {
+      response.status(404);
+      return "Error: User not found";
+    }
+
+    this.userRepository.remove(user);
+    response.status(200);
+  }
 }

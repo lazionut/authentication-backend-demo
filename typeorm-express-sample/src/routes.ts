@@ -1,25 +1,48 @@
-import {UserController} from "./controller/UserController";
+import { UserController } from "./controller/UserController";
 
 const apiRoute = "/api";
 
-export const Routes = [{
+export const Routes = [
+  {
     method: "get",
-    route: apiRoute+"/users",
+    route: apiRoute + "/users",
     controller: UserController,
-    action: "all"
-}, {
+    action: "findAllUsers",
+  },
+  {
     method: "get",
-    route: apiRoute+"/users/:id",
+    route: apiRoute + "/users/email/:email",
     controller: UserController,
-    action: "one"
-}, {
+    action: "findEmail",
+  },
+  {
+    method: "get",
+    route: apiRoute + "/users/username/:username",
+    controller: UserController,
+    action: "findUser",
+  },
+  {
     method: "post",
-    route: apiRoute+"/users",
+    route: apiRoute + "/register",
     controller: UserController,
-    action: "save"
-}, {
+    action: "registerUser",
+  },
+  {
+    method: "post",
+    route: apiRoute + "/login",
+    controller: UserController,
+    action: "loginUser",
+  },
+  {
+    method: "post",
+    route: apiRoute + "/update/:id",
+    controller: UserController,
+    action: "updateUser",
+  },
+  {
     method: "delete",
-    route: apiRoute+"/users/:id",
+    route: apiRoute + "/remove_user",
     controller: UserController,
-    action: "remove"
-}];
+    action: "removeUser",
+  },
+];
