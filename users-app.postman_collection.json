@@ -31,7 +31,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/api/users?email=calas@gmail.com",
+					"raw": "http://localhost:3000/api/users/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -39,13 +39,8 @@
 					"port": "3000",
 					"path": [
 						"api",
-						"users"
-					],
-					"query": [
-						{
-							"key": "email",
-							"value": "calas@gmail.com"
-						}
+						"users",
+						"1"
 					]
 				}
 			},
@@ -58,7 +53,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"cana@gmail.com\",\r\n    \"username\": \"cana\",\r\n    \"password\": \"cana\"\r\n}",
+					"raw": "{\r\n    \"email\": \"dana@gmail.com\",\r\n    \"username\": \"dana\",\r\n    \"password\": \"dana\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -87,7 +82,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"cana\",\r\n    \"password\": \"cana\"\r\n}",
+					"raw": "{\r\n    \"username\": \"cana\",\r\n    \"password\": \"dana\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -146,7 +141,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"dalas@gmail.com\",\r\n    \"username\": \"banana\",\r\n    \"password\": \"ANA\"\r\n}",
+					"raw": "{\r\n    \"email\": \"fsd@gmail.com\",\r\n    \"username\": \"fds\",\r\n    \"password\": \"ananas\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
