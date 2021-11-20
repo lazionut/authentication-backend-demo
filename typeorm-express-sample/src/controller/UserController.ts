@@ -11,39 +11,13 @@ export class UserController {
   }
 
   async findUser(request: Request, response: Response, next: NextFunction) {
-    const query = request.query;
-    const userName = query.username;
-
-    let userByUsername = await this.userRepository.findOne({
-      where: {
-        username: userName,
-      },
-    });
-
-    if (userByUsername) {
+    if (this.userRepository.findOne(request.params.id)) {
       response.status(200);
-      return this.userRepository.findOne(userName);
+      return this.userRepository.findOne(request.params.id);
     }
 
-    response.status(404).send("User not found");
-  }
-
-  async findEmail(request: Request, response: Response, next: NextFunction) {
-    const query = request.query;
-    const userEmail = query.email;
-
-    let userByEmail = await this.userRepository.findOne({
-      where: {
-        email: userEmail,
-      },
-    });
-
-    if (userByEmail) {
-      response.status(200);
-      return this.userRepository.findOne(userEmail);
-    }
-
-    response.status(404).send("User not found");
+    response.status(404);
+    return next("User not found");
   }
 
   async registerUser(request: Request, response: Response, next: NextFunction) {
@@ -57,7 +31,8 @@ export class UserController {
       userName === undefined ||
       userPassword === undefined
     ) {
-      response.status(404).send("Email, username and password are required");
+      response.status(404);
+      return next("Email, username and password are required");
     }
 
     let userByEmail = await this.userRepository.findOne({
@@ -73,7 +48,8 @@ export class UserController {
     });
 
     if (userByEmail || userByUsername) {
-      response.status(404).send("User already exist");
+      response.status(404);
+      return next("User already exist");
     }
 
     this.userRepository.save(request.body);
@@ -89,13 +65,6 @@ export class UserController {
 
     let user = null;
 
-    if (
-      (userEmail === undefined && userName === undefined) ||
-      userPassword === undefined
-    ) {
-      response.status(404).send("Email/username and password are required");
-    }
-
     if (userEmail) {
       user = await this.userRepository.findOne({
         where: {
@@ -104,8 +73,15 @@ export class UserController {
         },
       });
 
-      return this.userRepository.findOne(request.email);
-    } else if (userName) {
+      if (user) {
+        response.status(200);
+        return user;
+      }
+
+      response.status(404);
+      return next("User not found");
+    }
+    if (userName) {
       user = await this.userRepository.findOne({
         where: {
           username: userName,
@@ -113,11 +89,13 @@ export class UserController {
         },
       });
 
-      return this.userRepository.findOne(request.username);
-    }
+      if (user) {
+        response.status(200);
+        return user;
+      }
 
-    if (user === undefined) {
-      response.status(404).send("User not found");
+      response.status(404);
+      return next("User not found");
     }
   }
 
@@ -132,13 +110,15 @@ export class UserController {
       userName === undefined &&
       userPassword === undefined
     ) {
-      response.status(404).send("Email, username or password are required");
+      response.status(404);
+      return next("Email, username or password are required");
     }
 
     let user = await this.userRepository.findOne(request.params.id);
 
     if (user === undefined) {
-      response.status(404).send("User not found");
+      response.status(404);
+      return next("User not found");
     }
 
     if (userEmail) {
@@ -171,7 +151,8 @@ export class UserController {
     });
 
     if (user === undefined) {
-      response.status(404).send("User not found");
+      response.status(404);
+      return next("User not found");
     }
 
     this.userRepository.remove(user);

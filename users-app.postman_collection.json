@@ -26,7 +26,7 @@
 			"response": []
 		},
 		{
-			"name": "GetUserByEmail",
+			"name": "GetUser",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -52,39 +52,13 @@
 			"response": []
 		},
 		{
-			"name": "GetUserByName",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3000/api/users?username=banana",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"users"
-					],
-					"query": [
-						{
-							"key": "username",
-							"value": "banana"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "RegisterUser",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"dalas@gmail.com\",\r\n    \"username\": \"banana\",\r\n    \"password\": \"ananas\"\r\n}",
+					"raw": "{\r\n    \"email\": \"cana@gmail.com\",\r\n    \"username\": \"cana\",\r\n    \"password\": \"cana\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -113,7 +87,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"dalas@gmail.com\",\r\n    \"password\": \"ananas\"\r\n}",
+					"raw": "{\r\n    \"username\": \"cana\",\r\n    \"password\": \"cana\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
