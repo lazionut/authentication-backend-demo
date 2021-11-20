@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d9dc8abb-9eb6-43ce-822f-a3271b1ec456",
+		"_postman_id": "efab0002-af1b-4e63-8b5d-b5eaf0f5ae70",
 		"name": "FSD - users app",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -84,7 +84,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/api/register/username&password",
+					"raw": "http://localhost:3000/api/register",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -92,8 +92,7 @@
 					"port": "3000",
 					"path": [
 						"api",
-						"register",
-						"username&password"
+						"register"
 					]
 				}
 			},

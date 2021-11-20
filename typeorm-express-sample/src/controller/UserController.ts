@@ -17,7 +17,7 @@ export class UserController {
     }
 
     response.status(404);
-    return "Error: User doesn't exist";
+    return "Error: User not found";
   }
 
   async findEmail(request: Request, response: Response, next: NextFunction) {
@@ -27,7 +27,7 @@ export class UserController {
     }
 
     response.status(404);
-    return "Error: User doesn't exist";
+    return "Error: User not found";
   }
 
   async registerUser(request: Request, response: Response, next: NextFunction) {
