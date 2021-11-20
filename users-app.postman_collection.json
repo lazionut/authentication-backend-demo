@@ -31,7 +31,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/api/users/email/calas@gmail.com",
+					"raw": "http://localhost:3000/api/users?email=calas@gmail.com",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -39,9 +39,13 @@
 					"port": "3000",
 					"path": [
 						"api",
-						"users",
-						"email",
-						"calas@gmail.com"
+						"users"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "calas@gmail.com"
+						}
 					]
 				}
 			},
@@ -53,7 +57,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/api/users/username/danana",
+					"raw": "http://localhost:3000/api/users?username=banana",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -61,9 +65,13 @@
 					"port": "3000",
 					"path": [
 						"api",
-						"users",
-						"username",
-						"danana"
+						"users"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "banana"
+						}
 					]
 				}
 			},
@@ -142,7 +150,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/api/update/24",
+					"raw": "http://localhost:3000/api/update/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -151,7 +159,7 @@
 					"path": [
 						"api",
 						"update",
-						"24"
+						"1"
 					]
 				}
 			},
@@ -164,7 +172,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"dalas@gmail.com\",\r\n    \"username\": \"banana\",\r\n    \"password\": \"ananas\"\r\n}",
+					"raw": "{\r\n    \"email\": \"dalas@gmail.com\",\r\n    \"username\": \"banana\",\r\n    \"password\": \"ANA\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

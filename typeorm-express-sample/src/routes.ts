@@ -11,13 +11,13 @@ export const Routes = [
   },
   {
     method: "get",
-    route: apiRoute + "/users/email/:email",
+    route: apiRoute + "/users?email",
     controller: UserController,
     action: "findEmail",
   },
   {
     method: "get",
-    route: apiRoute + "/users/username/:username",
+    route: apiRoute + "/users?username",
     controller: UserController,
     action: "findUser",
   },
