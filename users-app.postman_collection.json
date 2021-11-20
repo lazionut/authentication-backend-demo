@@ -26,12 +26,12 @@
 			"response": []
 		},
 		{
-			"name": "GetUserByEmail",
+			"name": "GetUser",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/api/users/email/calas@gmail.com",
+					"raw": "http://localhost:3000/api/users?email=calas@gmail.com",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -39,31 +39,13 @@
 					"port": "3000",
 					"path": [
 						"api",
-						"users",
-						"email",
-						"calas@gmail.com"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetUserByName",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3000/api/users/username/danana",
-					"protocol": "http",
-					"host": [
-						"localhost"
+						"users"
 					],
-					"port": "3000",
-					"path": [
-						"api",
-						"users",
-						"username",
-						"danana"
+					"query": [
+						{
+							"key": "email",
+							"value": "calas@gmail.com"
+						}
 					]
 				}
 			},
@@ -76,7 +58,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"dalas@gmail.com\",\r\n    \"username\": \"banana\",\r\n    \"password\": \"ananas\"\r\n}",
+					"raw": "{\r\n    \"email\": \"cana@gmail.com\",\r\n    \"username\": \"cana\",\r\n    \"password\": \"cana\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -105,7 +87,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"dalas@gmail.com\",\r\n    \"password\": \"ananas\"\r\n}",
+					"raw": "{\r\n    \"username\": \"cana\",\r\n    \"password\": \"cana\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -142,7 +124,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/api/update/24",
+					"raw": "http://localhost:3000/api/update/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -151,7 +133,7 @@
 					"path": [
 						"api",
 						"update",
-						"24"
+						"1"
 					]
 				}
 			},
@@ -164,7 +146,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"dalas@gmail.com\",\r\n    \"username\": \"banana\",\r\n    \"password\": \"ananas\"\r\n}",
+					"raw": "{\r\n    \"email\": \"dalas@gmail.com\",\r\n    \"username\": \"banana\",\r\n    \"password\": \"ANA\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
