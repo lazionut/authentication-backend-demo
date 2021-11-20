@@ -1,12 +1,12 @@
 {
 	"info": {
-		"_postman_id": "875d4497-829a-4c9c-acb4-4ce18731ea76",
+		"_postman_id": "efab0002-af1b-4e63-8b5d-b5eaf0f5ae70",
 		"name": "FSD - users app",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Get All Users",
+			"name": "GetAllUsers",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -26,12 +26,12 @@
 			"response": []
 		},
 		{
-			"name": "Get User by Id",
+			"name": "GetUserByEmail",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/api/users/1",
+					"raw": "http://localhost:3000/api/users/email/calas@gmail.com",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -40,20 +40,43 @@
 					"path": [
 						"api",
 						"users",
-						"1"
+						"email",
+						"calas@gmail.com"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Add User",
+			"name": "GetUserByName",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/users/username/danana",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"users",
+						"username",
+						"danana"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RegisterUser",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstName\": \"Robert\",\r\n    \"lastName\": \"Ion\",\r\n    \"age\": 21\r\n}",
+					"raw": "{\r\n    \"email\": \"dalas@gmail.com\",\r\n    \"username\": \"banana\",\r\n    \"password\": \"ananas\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -61,7 +84,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/api/users",
+					"raw": "http://localhost:3000/api/register",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -69,19 +92,28 @@
 					"port": "3000",
 					"path": [
 						"api",
-						"users"
+						"register"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Delete User by Id",
+			"name": "LoginUser",
 			"request": {
-				"method": "DELETE",
+				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"dalas@gmail.com\",\r\n    \"password\": \"ananas\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "http://localhost:3000/api/users/5",
+					"raw": "http://localhost:3000/api/login",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -89,8 +121,66 @@
 					"port": "3000",
 					"path": [
 						"api",
-						"users",
-						"5"
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"password\": \"ANA\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/update/24",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"update",
+						"24"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RemoveUser",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"dalas@gmail.com\",\r\n    \"username\": \"banana\",\r\n    \"password\": \"ananas\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/remove_user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"remove_user"
 					]
 				}
 			},

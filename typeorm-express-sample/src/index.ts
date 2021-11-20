@@ -10,6 +10,8 @@ createConnection().then(async connection => {
 
     // create express app
     const app = express();
+
+    app.set('env', process.env.APP_ENV);
     app.use(bodyParser.json());
 
     // register express routes from defined application routes
@@ -25,19 +27,15 @@ createConnection().then(async connection => {
         });
     });
 
+<<<<<<< HEAD
     // setup express app here
     // ...
 
     app.set('env', process.env.APP_ENV);
+=======
+>>>>>>> dockerbranch
     // start express server
     app.listen(3000);
-
-    // insert new users for test
-    await connection.manager.save(connection.manager.create(User, {
-        UserName: "Timber",
-        email: "Saw",
-        password: "verySecret",
-    }));
 
     console.log("Express server has started on port 3000. Open http://localhost:3000/users to see results");
 
