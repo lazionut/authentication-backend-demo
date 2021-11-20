@@ -27,13 +27,6 @@ createConnection().then(async connection => {
         });
     });
 
-<<<<<<< HEAD
-    // setup express app here
-    // ...
-
-    app.set('env', process.env.APP_ENV);
-=======
->>>>>>> dockerbranch
     // start express server
     app.listen(3000);
 
