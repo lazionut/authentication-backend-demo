@@ -4,17 +4,18 @@
    "description": "Awesome project developed with TypeORM.",
    "devDependencies": {
       "@types/node": "^8.0.29",
-      "ts-node": "3.3.0",
-      "typescript": "3.3.3333"
+      "nodemon": "^2.0.15",
+      "ts-node": "^3.3.0",
+      "typescript": "^3.3.3333"
    },
    "dependencies": {
       "body-parser": "^1.18.1",
-      "express": "^4.15.4",
+      "express": "^4.17.1",
       "express-jwt": "^6.1.0",
       "jsonwebtoken": "^8.5.1",
-      "pg": "^8.4.0",
-      "reflect-metadata": "^0.1.10",
-      "typeorm": "0.2.38"
+      "pg": "^8.7.1",
+      "reflect-metadata": "^0.1.13",
+      "typeorm": "^0.2.38"
    },
    "scripts": {
       "start": "ts-node src/index.ts"

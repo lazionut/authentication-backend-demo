@@ -10,6 +10,8 @@ createConnection().then(async connection => {
 
     // create express app
     const app = express();
+
+    app.set('env', process.env.APP_ENV);
     app.use(bodyParser.json());
 
     // register express routes from defined application routes
