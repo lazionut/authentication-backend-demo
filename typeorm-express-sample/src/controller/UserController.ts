@@ -6,20 +6,25 @@ export class UserController {
   private userRepository = getRepository(User);
 
   async findAllUsers(request: Request, response: Response, next: NextFunction) {
+    response.status(200);
     return this.userRepository.find();
   }
 
   async findUser(request: Request, response: Response, next: NextFunction) {
-    if (this.userRepository.findOne(request.username) !== undefined)
+    if (this.userRepository.findOne(request.username) !== undefined) {
+      response.status(200);
       return this.userRepository.findOne(request.username);
+    }
 
     response.status(404);
     return "Error: User doesn't exist";
   }
 
   async findEmail(request: Request, response: Response, next: NextFunction) {
-    if (this.userRepository.findOne(request.email) !== undefined)
+    if (this.userRepository.findOne(request.email) !== undefined) {
+      response.status(200);
       return this.userRepository.findOne(request.email);
+    }
 
     response.status(404);
     return "Error: User doesn't exist";
@@ -59,6 +64,7 @@ export class UserController {
 
     this.userRepository.save(request.body);
 
+    response.status(200);
     return "New user created";
   }
 
@@ -154,6 +160,8 @@ export class UserController {
     }
 
     this.userRepository.save(user);
+
+    response.status(200);
     return "User updated";
   }
 
