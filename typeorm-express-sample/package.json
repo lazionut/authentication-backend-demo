@@ -10,6 +10,7 @@
    },
    "dependencies": {
       "body-parser": "^1.18.1",
+      "crypto-js": "^4.1.1",
       "express": "^4.17.1",
       "express-jwt": "^6.1.0",
       "jsonwebtoken": "^8.5.1",
@@ -18,6 +19,6 @@
       "typeorm": "^0.2.38"
    },
    "scripts": {
-      "start": "nodemon src/index.ts" 
+      "start": "nodemon src/index.ts"
    }
 }

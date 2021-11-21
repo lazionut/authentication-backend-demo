@@ -1,6 +1,12 @@
 import { getRepository } from "typeorm";
 import { NextFunction, Request, Response } from "express";
 import { User } from "../entity/User";
+import * as jwt from "jsonwebtoken";
+
+let CryptoJS = require("crypto-js");
+
+require('dotenv').config();
+const jwtSecret = process.env.JWT_SECRET;
 
 export class UserController {
   private userRepository = getRepository(User);
@@ -11,9 +17,10 @@ export class UserController {
   }
 
   async findUser(request: Request, response: Response, next: NextFunction) {
-    if (this.userRepository.findOne(request.params.id)) {
+    const user = this.userRepository.findOne(request.params.id);
+    if (user) {
       response.status(200);
-      return this.userRepository.findOne(request.params.id);
+      return user;
     }
 
     response.status(404);
@@ -21,10 +28,9 @@ export class UserController {
   }
 
   async registerUser(request: Request, response: Response, next: NextFunction) {
-    const body = request.body;
-    const userEmail = body.email;
-    const userName = body.username;
-    const userPassword = body.password;
+    const userEmail: string = request.body.email;
+    const userName: string = request.body.username;
+    const userPassword: string = request.body.password;
 
     if (
       userEmail === undefined ||
@@ -34,6 +40,8 @@ export class UserController {
       response.status(404);
       return next("Email, username and password are required");
     }
+
+    request.body.password = CryptoJS.SHA256(userPassword).toString(CryptoJS.enc.Base64);
 
     let userByEmail = await this.userRepository.findOne({
       where: {
@@ -49,7 +57,7 @@ export class UserController {
 
     if (userByEmail || userByUsername) {
       response.status(404);
-      return next("User already exist");
+      return next("User already exists");
     }
 
     this.userRepository.save(request.body);
@@ -58,10 +66,10 @@ export class UserController {
   }
 
   async loginUser(request: Request, response: Response, next: NextFunction) {
-    const body = request.body;
-    const userEmail = body.email;
-    const userName = body.username;
-    const userPassword = body.password;
+    const userEmail: string = request.body.email;
+    const userName: string = request.body.username;
+    const userPassword: string = request.body.password;
+    const encryptedPassword: string = CryptoJS.SHA256(userPassword).toString(CryptoJS.enc.Base64);
 
     let user = null;
 
@@ -69,7 +77,7 @@ export class UserController {
       user = await this.userRepository.findOne({
         where: {
           email: userEmail,
-          password: userPassword,
+          password: encryptedPassword,
         },
       });
 
@@ -85,12 +93,13 @@ export class UserController {
       user = await this.userRepository.findOne({
         where: {
           username: userName,
-          password: userPassword,
+          password: encryptedPassword,
         },
       });
 
       if (user) {
-        response.status(200);
+        const token = jwt.sign({ userEmail, userPassword }, jwtSecret, { expiresIn: "10h" });
+        response.status(200).send({token:token});
         return user;
       }
 
@@ -100,10 +109,9 @@ export class UserController {
   }
 
   async updateUser(request: Request, response: Response, next: NextFunction) {
-    const body = request.body;
-    const userEmail = body.email;
-    const userName = body.username;
-    const userPassword = body.password;
+    const userEmail: string = request.body.email;
+    const userName: string = request.body.username;
+    const userPassword: string = request.body.password;
 
     if (
       userEmail === undefined &&
@@ -137,10 +145,9 @@ export class UserController {
   }
 
   async removeUser(request: Request, response: Response, next: NextFunction) {
-    const body = request.body;
-    const userEmail = body.email;
-    const userName = body.username;
-    const userPassword = body.password;
+    const userEmail: string = request.body.email;
+    const userName: string = request.body.username;
+    const userPassword: string = request.body.password;
 
     let user = await this.userRepository.findOne({
       where: {

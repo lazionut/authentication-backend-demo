@@ -1,4 +1,5 @@
 import { UserController } from "./controller/UserController";
+import authToken from "./middleware/authToken";
 
 const apiRoute = "/api";
 
@@ -8,12 +9,14 @@ export const Routes = [
     route: apiRoute + "/users",
     controller: UserController,
     action: "findAllUsers",
+    middleware: authToken,
   },
   {
     method: "get",
     route: apiRoute + "/users/:id",
     controller: UserController,
     action: "findUser",
+    middleware: authToken,
   },
   {
     method: "post",
@@ -32,11 +35,13 @@ export const Routes = [
     route: apiRoute + "/update/:id",
     controller: UserController,
     action: "updateUser",
+    middleware: authToken,
   },
   {
     method: "delete",
     route: apiRoute + "/remove_user",
     controller: UserController,
     action: "removeUser",
+    middleware: authToken,
   },
 ];
