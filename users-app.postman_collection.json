@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "efab0002-af1b-4e63-8b5d-b5eaf0f5ae70",
+		"_postman_id": "3572b550-1f44-4be6-bf8b-eca4ca777d18",
 		"name": "FSD - users app",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -31,7 +31,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/api/users/1",
+					"raw": "http://localhost:3000/api/users/4",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -40,7 +40,7 @@
 					"path": [
 						"api",
 						"users",
-						"1"
+						"4"
 					]
 				}
 			},
@@ -53,7 +53,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"dana@gmail.com\",\r\n    \"username\": \"dana\",\r\n    \"password\": \"dana\"\r\n}",
+					"raw": "{\r\n    \"email\": \"user3@gmail.com\",\r\n    \"username\": \"user3\",\r\n    \"password\": \"user3password\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -76,13 +76,42 @@
 			"response": []
 		},
 		{
-			"name": "LoginUser",
+			"name": "LoginUserByEmail",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"cana\",\r\n    \"password\": \"dana\"\r\n}",
+					"raw": "{\r\n    \"email\": \"user1@gmail.com\",\r\n    \"password\": \"user1password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LoginUserByUsername",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"user1\",\r\n    \"password\": \"user1password\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -141,7 +170,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"fsd@gmail.com\",\r\n    \"username\": \"fds\",\r\n    \"password\": \"ananas\"\r\n}",
+					"raw": "{\r\n    \"email\": \"dsa@gmail.com\",\r\n    \"username\": \"dsa\",\r\n    \"password\": \"3gTVjcXMxLlnHDYn+41ib+ShWBC8H+PnJP7qdhll+3E=\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

@@ -80,15 +80,17 @@ export class UserController {
           password: encryptedPassword,
         },
       });
-
+    
       if (user) {
-        response.status(200);
+        const token = jwt.sign({ userEmail, userPassword }, jwtSecret, { expiresIn: "10h" });
+        response.status(200).send({token:token});
         return user;
       }
 
       response.status(404);
       return next("User not found");
     }
+    
     if (userName) {
       user = await this.userRepository.findOne({
         where: {
@@ -98,7 +100,7 @@ export class UserController {
       });
 
       if (user) {
-        const token = jwt.sign({ userEmail, userPassword }, jwtSecret, { expiresIn: "10h" });
+        const token = jwt.sign({ userName, userPassword }, jwtSecret, { expiresIn: "10h" });
         response.status(200).send({token:token});
         return user;
       }
