@@ -84,7 +84,6 @@ export class UserController {
       if (user) {
         const token = jwt.sign({ userEmail, userPassword }, jwtSecret, { expiresIn: "10h" });
         response.status(200).send({token:token});
-        return user;
       }
 
       response.status(404);
@@ -102,7 +101,6 @@ export class UserController {
       if (user) {
         const token = jwt.sign({ userName, userPassword }, jwtSecret, { expiresIn: "10h" });
         response.status(200).send({token:token});
-        return user;
       }
 
       response.status(404);
