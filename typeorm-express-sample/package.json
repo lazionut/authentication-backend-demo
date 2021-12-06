@@ -10,6 +10,8 @@
       "typescript": "^3.3.3333"
    },
    "dependencies": {
+      "@google-cloud/datastore": "^6.6.2",
+      "@google-cloud/functions-framework": "^2.0.0",
       "body-parser": "^1.18.1",
       "cors": "^2.8.5",
       "crypto-js": "^4.1.1",
