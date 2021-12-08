@@ -1,5 +1,5 @@
 {
-  "name": "sample-http",
+  "name": "gcp",
   "version": "0.0.1",
   "dependencies": {
     "@google-cloud/datastore": "^6.6.2"

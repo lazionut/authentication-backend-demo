@@ -23,7 +23,7 @@ export class UserController {
       return user;
     }
 
-    response.status(404);
+    response.status(500);
     return next("User not found");
   }
 
@@ -37,7 +37,7 @@ export class UserController {
       userName === undefined ||
       userPassword === undefined
     ) {
-      response.status(404);
+      response.status(500);
       return next("Email, username and password are required");
     }
 
@@ -56,7 +56,7 @@ export class UserController {
     });
 
     if (userByEmail || userByUsername) {
-      response.status(404);
+      response.status(500);
       return next("User already exists");
     }
 
@@ -86,7 +86,7 @@ export class UserController {
         response.status(200).send({token:token});
       }
 
-      response.status(404);
+      response.status(500);
       return next("User not found");
     }
     
@@ -103,7 +103,7 @@ export class UserController {
         response.status(200).send({token:token});
       }
 
-      response.status(404);
+      response.status(500);
       return next("User not found");
     }
   }
@@ -118,14 +118,14 @@ export class UserController {
       userName === undefined &&
       userPassword === undefined
     ) {
-      response.status(404);
+      response.status(500);
       return next("Email, username or password are required");
     }
 
     let user = await this.userRepository.findOne(request.params.id);
 
     if (user === undefined) {
-      response.status(404);
+      response.status(500);
       return next("User not found");
     }
 
@@ -158,7 +158,7 @@ export class UserController {
     });
 
     if (user === undefined) {
-      response.status(404);
+      response.status(500);
       return next("User not found");
     }
 

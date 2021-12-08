@@ -191,6 +191,55 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "GCD_SetDate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"startDate\": 1,\r\n    \"endDate\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://us-central1-fsdscheduler.cloudfunctions.net/saveDateInterval",
+					"protocol": "https",
+					"host": [
+						"us-central1-fsdscheduler",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"saveDateInterval"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GCD_GetDate",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://us-central1-fsdscheduler.cloudfunctions.net/getDateInterval",
+					"protocol": "https",
+					"host": [
+						"us-central1-fsdscheduler",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"getDateInterval"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
