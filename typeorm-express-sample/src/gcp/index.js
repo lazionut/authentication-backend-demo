@@ -3,10 +3,10 @@ const datastore = new Datastore({
   projectId: "fsdscheduler",
   keyFilename: "datastore-credentials.json",
 });
-const kindName = "user-log";
+//const kindName = "user-log";
 const dateKindName = "Schedule";
 
-exports.savelog = (req, res) => {
+/*exports.savelog = (req, res) => {
   let uid = req.query.uid || req.body.uid || 0;
   let log = req.query.log || req.body.log || "";
 
@@ -26,11 +26,14 @@ exports.savelog = (req, res) => {
     });
 
   res.status(200).send(log);
-};
+};*/
+
+/* https://us-central1-fsdscheduler.cloudfunctions.net/saveDateInterval
+POST a JSON*/
 
 exports.saveDateInterval = async (req, res) => {
-  let startDate = req.body.startDate;
-  let endDate = req.body.endDate;
+  const startDate = req.body.startDate;
+  const endDate = req.body.endDate;
 
   if (startDate < endDate) {
     datastore
@@ -54,28 +57,22 @@ exports.saveDateInterval = async (req, res) => {
   return;
 };
 
-exports.getDateInterval = async () => {
-  const allSchedulesQuery = datastore.createQuery("Schedule").order();
+/* https://us-central1-fsdscheduler.cloudfunctions.net/getDateInterval
+GET without any parameters*/
+
+exports.getDateInterval = async (req, res) => {
+  const query = datastore.createQuery(dateKindName);
 
   datastore
-    .runQuery(allSchedulesQuery)
-    .then((res) => {
-      const schedules = res[0];
-
-      console.log("Schedules:");
-      schedules.forEach((schedule) => {
-        const scheduleKey = schedule[datastore.KEY];
-		//for testing
-        console.log(scheduleKey.id, schedule);
-      });
+    .runQuery(query)
+    .then((intervals) => {
+      res.status(200).send(intervals[0]);
     })
     .catch((err) => {
       console.error("ERROR:", err);
-	  res.status(500).send(err);
-	  return;
+      res.status(500).send(err);
+      return;
     });
-
-	res.status(200);
 };
 
 //https://us-central1-fsdscheduler.cloudfunctions.net/savelog?log=we_did_it_bois&uid=1
