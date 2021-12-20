@@ -165,4 +165,15 @@ export class UserController {
     this.userRepository.remove(user);
     response.status(200).send("User removed");
   }
+
+  async evaluateImage(request: Request, response: Response, next: NextFunction) {
+    
+    if (true) {
+      response.status(500);
+      return next("User not found");
+    }
+    
+    response.status(200).send("User removed");
+  }
+
 }
