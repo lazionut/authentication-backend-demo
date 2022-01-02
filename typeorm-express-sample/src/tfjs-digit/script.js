@@ -1,8 +1,8 @@
-import { MnistData } from "./data.js";
+MnistData = require("./data.js");
 
 console.log("Hello TensorFlow");
 
-async function showExamples(data) {
+/*async function showExamples(data) {
   // Create a container in the visor
   const surface = tfvis
     .visor()
@@ -30,9 +30,9 @@ async function showExamples(data) {
 
     imageTensor.dispose();
   }
-}
+}*/
 
-async function run() {
+/*async function run() {
   const data = new MnistData();
   await data.load();
   await showExamples(data);
@@ -45,9 +45,9 @@ async function run() {
   await showConfusion(model, data);
 
   await model.save('localstorage://model.json');
-}
+}*/
 
-document.addEventListener("DOMContentLoaded", run);
+//document.addEventListener("DOMContentLoaded", run);
 
 function getModel() {
   const model = tf.sequential();
@@ -122,15 +122,15 @@ async function train(model, data) {
     tab: "Model",
     styles: { height: "1000px" },
   };
-  const fitCallbacks = tfvis.show.fitCallbacks(container, metrics);
+  //const fitCallbacks = tfvis.show.fitCallbacks(container, metrics);
 
-  //const BATCH_SIZE = 512;
-  //const TRAIN_DATA_SIZE = 5500;
-  //onst TEST_DATA_SIZE = 1000;
+  const BATCH_SIZE = 512;
+  const TRAIN_DATA_SIZE = 5500;
+  const TEST_DATA_SIZE = 1000;
 
-  const BATCH_SIZE = 100;
-  const TRAIN_DATA_SIZE = 1000;
-  const TEST_DATA_SIZE = 300;
+  //const BATCH_SIZE = 100;
+  //const TRAIN_DATA_SIZE = 1000;
+  //const TEST_DATA_SIZE = 300;
 
   const [trainXs, trainYs] = tf.tidy(() => {
     const d = data.nextTrainBatch(TRAIN_DATA_SIZE);
@@ -142,16 +142,16 @@ async function train(model, data) {
     return [d.xs.reshape([TEST_DATA_SIZE, 28, 28, 1]), d.labels];
   });
 
-  return model.fit(trainXs, trainYs, {
+  return await model.fit(trainXs, trainYs, {
     batchSize: BATCH_SIZE,
     validationData: [testXs, testYs],
     epochs: 10,
     shuffle: true,
-    callbacks: fitCallbacks,
+    //callbacks: fitCallbacks,
   });
 }
 
-const classNames = [
+/*const classNames = [
   "Zero",
   "One",
   "Two",
@@ -162,9 +162,9 @@ const classNames = [
   "Seven",
   "Eight",
   "Nine",
-];
+];*/
 
-function doPrediction(model, data, testDataSize = 500) {
+/*function doPrediction(model, data, testDataSize = 500) {
   const IMAGE_WIDTH = 28;
   const IMAGE_HEIGHT = 28;
   const testData = data.nextTestBatch(testDataSize);
@@ -179,9 +179,37 @@ function doPrediction(model, data, testDataSize = 500) {
 
   testxs.dispose();
   return [preds, labels];
+}*/
+
+async function doPrediction(arrayBuffer) {
+  const IMAGE_WIDTH = 28;
+  const IMAGE_HEIGHT = 28;
+  let pixels = undefined;
+
+  const model = await tf.loadLayersModel(
+    "file://./src/tfjs-digit/model/model.json"
+  );
+
+  await new Promise((resolve) => {
+    const reader = new PNGReader(arrayBuffer);
+    return reader.parse((err, png) => {
+      pixels = Float32Array.from(png.pixels).map((pixel) => {
+        return pixel / 255;
+      });
+      resolve();
+    });
+  });
+
+  let imageData = tf
+    .tensor2d(pixels, [1, IMAGE_HEIGHT * IMAGE_WIDTH])
+    .reshape([1, IMAGE_WIDTH, IMAGE_HEIGHT, 1]);
+  const preds = model.predict(imageData).argMax(-1);
+
+  imageData.dispose();
+  return preds.array();
 }
 
-async function showAccuracy(model, data) {
+/*async function showAccuracy(model, data) {
   const [preds, labels] = doPrediction(model, data);
   const classAccuracy = await tfvis.metrics.perClassAccuracy(labels, preds);
   const container = { name: "Accuracy", tab: "Evaluation" };
@@ -200,4 +228,6 @@ async function showConfusion(model, data) {
   });
 
   labels.dispose();
-}
+}*/
+
+export { train, doPrediction };

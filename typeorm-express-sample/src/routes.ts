@@ -46,9 +46,14 @@ export const Routes = [
   },
   {
     method: "post",
+    route: apiRoute + "/train",
+    controller: UserController,
+    action: "trainImage",
+  },
+  {
+    method: "post",
     route: apiRoute + "/evaluate",
     controller: UserController,
     action: "evaluateImage",
-    middleware: authToken,
   },
 ];

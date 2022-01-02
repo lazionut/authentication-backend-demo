@@ -3,9 +3,13 @@ import { NextFunction, Request, Response } from "express";
 import { User } from "../entity/User";
 import * as jwt from "jsonwebtoken";
 
+import { MnistData } from "./../tfjs-digit/data";
+import { getModel, train, doPrediction } from "./../tfjs-digit/script";
+import { toArrayBuffer } from "./../tfjs-digit/arrayBufferConverter";
+
 let CryptoJS = require("crypto-js");
 
-require('dotenv').config();
+require("dotenv").config();
 const jwtSecret = process.env.JWT_SECRET;
 
 export class UserController {
@@ -41,7 +45,9 @@ export class UserController {
       return next("Email, username and password are required");
     }
 
-    request.body.password = CryptoJS.SHA256(userPassword).toString(CryptoJS.enc.Base64);
+    request.body.password = CryptoJS.SHA256(userPassword).toString(
+      CryptoJS.enc.Base64
+    );
 
     let userByEmail = await this.userRepository.findOne({
       where: {
@@ -69,7 +75,9 @@ export class UserController {
     const userEmail: string = request.body.email;
     const userName: string = request.body.username;
     const userPassword: string = request.body.password;
-    const encryptedPassword: string = CryptoJS.SHA256(userPassword).toString(CryptoJS.enc.Base64);
+    const encryptedPassword: string = CryptoJS.SHA256(userPassword).toString(
+      CryptoJS.enc.Base64
+    );
 
     let user = null;
 
@@ -80,16 +88,18 @@ export class UserController {
           password: encryptedPassword,
         },
       });
-    
+
       if (user) {
-        const token = jwt.sign({ userEmail, userPassword }, jwtSecret, { expiresIn: "10h" });
-        response.status(200).send({token:token});
+        const token = jwt.sign({ userEmail, userPassword }, jwtSecret, {
+          expiresIn: "10h",
+        });
+        response.status(200).send({ token: token });
       }
 
       response.status(500);
       return next("User not found");
     }
-    
+
     if (userName) {
       user = await this.userRepository.findOne({
         where: {
@@ -99,8 +109,10 @@ export class UserController {
       });
 
       if (user) {
-        const token = jwt.sign({ userName, userPassword }, jwtSecret, { expiresIn: "10h" });
-        response.status(200).send({token:token});
+        const token = jwt.sign({ userName, userPassword }, jwtSecret, {
+          expiresIn: "10h",
+        });
+        response.status(200).send({ token: token });
       }
 
       response.status(500);
@@ -166,14 +178,20 @@ export class UserController {
     response.status(200).send("User removed");
   }
 
-  async evaluateImage(request: Request, response: Response, next: NextFunction) {
-    
-    if (true) {
-      response.status(500);
-      return next("User not found");
-    }
-    
-    response.status(200).send("User removed");
+  async trainImage(request: Request, response: Response, next: NextFunction) {
+    const data = new MnistData();
+    await data.load();
+    const model = getModel();
+    const trainedModel = await train(model, data);
+    await trainedModel.save("file://./src/tfjs-digit/model");
+
+    response.status(200).send(trainedModel);
   }
 
+  async evaluateImage(request, response: Response, next: NextFunction) {
+    const arrayBuffer = toArrayBuffer(request.files.image.data);
+    const predictions = await doPrediction(arrayBuffer);
+
+    response.status(200).send(predictions);  
+  }
 }
