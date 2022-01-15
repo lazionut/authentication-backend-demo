@@ -15,7 +15,7 @@
  * =============================================================================
  */
 
-PNGReader = require("./PNGReader");
+import * as PNGReader from "./PNGReader";
 
 const IMAGE_SIZE = 784;
 const NUM_CLASSES = 10;
@@ -37,7 +37,7 @@ const MNIST_LABELS_PATH =
  * NOTE: This will get much easier. For now, we do data fetching and
  * manipulation manually.
  */
-class MnistData {
+export class MnistData {
   constructor() {
     this.shuffledTrainIndex = 0;
     this.shuffledTestIndex = 0;
@@ -134,5 +134,3 @@ class MnistData {
     return { xs, labels };
   }
 }
-
-module.exports = MnistData;

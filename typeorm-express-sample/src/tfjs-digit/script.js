@@ -1,4 +1,5 @@
-MnistData = require("./data.js");
+//import * as tf from "@tensorflow/tfjs-node";
+import * as PNGReader from "./PNGReader";
 
 console.log("Hello TensorFlow");
 
@@ -49,7 +50,7 @@ console.log("Hello TensorFlow");
 
 //document.addEventListener("DOMContentLoaded", run);
 
-function getModel() {
+export function getModel() {
   const model = tf.sequential();
 
   const IMAGE_WIDTH = 28;

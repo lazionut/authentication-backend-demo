@@ -192,6 +192,6 @@ export class UserController {
     const arrayBuffer = toArrayBuffer(request.files.image.data);
     const predictions = await doPrediction(arrayBuffer);
 
-    response.status(200).send(predictions);  
+    response.status(200).send(predictions);
   }
 }

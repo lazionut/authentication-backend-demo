@@ -1,0 +1,21 @@
+image: google/cloud-sdk:alpine
+
+test_production:
+  image: node:14
+  stage: test
+  only:
+    - production
+  script:
+    - CGO_ENABLED=0 go test ./src/index.ts
+
+deploy_production:
+  stage: deploy
+  environment: Production
+  only:
+    - production
+  script:
+    - echo $SERVICE_ACCOUNT > /tmp/$CI_PIPELINE_ID.json
+    - gcloud auth activate-service-account --key-file /tmp/$CI_PIPELINE_ID.json
+    - gcloud --quiet --project $PROJECT_ID functions deploy helloGet --runtime nodejs14 --trigger-http
+  after_script:
+    - rm /tmp/$CI_PIPELINE_ID.json
