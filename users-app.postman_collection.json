@@ -76,36 +76,7 @@
 			"response": []
 		},
 		{
-			"name": "LoginUserByEmail",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"user1@gmail.com\",\r\n    \"password\": \"user1password\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:3000/api/login",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "LoginUserByUsername",
+			"name": "LoginUser",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -199,7 +170,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"startDate\": 1,\r\n    \"endDate\": 2\r\n}",
+					"raw": "{\r\n    \"startDate\": 3,\r\n    \"endDate\": 4\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
