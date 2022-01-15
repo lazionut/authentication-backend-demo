@@ -32,14 +32,11 @@ const dateKindName = "Schedule";
 POST a JSON*/
 
 exports.saveDateInterval = async (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
-  if (req.method === "OPTIONS") {
-    res.set({
-      "Access-Control-Allow-Methods": "POST",
-      "Access-Control-Allow-Headers": "*",
-    });
-    res.status(200).send("");
-  }
+  res.set({
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "POST",
+    "Access-Control-Allow-Headers": "*",
+  });
 
   const startDate = req.body.startDate;
   const endDate = req.body.endDate;
