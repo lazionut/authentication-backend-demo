@@ -3,8 +3,8 @@ const datastore = new Datastore({
   projectId: "fsdscheduler",
   keyFilename: "datastore-credentials.json",
 });
+
 //const kindName = "user-log";
-const dateKindName = "Schedule";
 
 /*exports.savelog = (req, res) => {
   let uid = req.query.uid || req.body.uid || 0;
@@ -28,6 +28,8 @@ const dateKindName = "Schedule";
   res.status(200).send(log);
 };*/
 
+const dateKindName = "Schedule";
+
 /* https://us-central1-fsdscheduler.cloudfunctions.net/saveDateInterval
 POST a JSON*/
 
@@ -44,26 +46,37 @@ exports.saveDateInterval = async (req, res) => {
   const startDate = req.body.startDate;
   const endDate = req.body.endDate;
 
-  if (startDate < endDate) {
-    datastore
-      .save({
-        key: datastore.key(dateKindName),
-        data: {
-          startDate: datastore.int(startDate),
-          endDate: datastore.int(endDate),
-        },
-      })
-      .catch((err) => {
-        console.error("ERROR:", err);
-        res.status(500).send(err);
-        return;
-      });
-
-    res.status(200).send("Date interval succesfully added");
+  if (!startDate && !endDate) {
+    res.status(500).send("ERROR: Start date and end date must be specified!");
+    return;
+  } else if (startDate < 1 || startDate > 31 || endDate < 1 || endDate > 31) {
+    res
+      .status(500)
+      .send(
+        "ERROR: Start date/end date are exceeding the minimum/maximum days!"
+      );
+    return;
+  } else if (startDate > endDate) {
+    res.status(500).send("ERROR: Start date must be smaller than end date!");
+    return;
   }
 
-  res.status(500).send("ERROR: Start date must be smaller than end date!");
-  return;
+  await datastore
+    .save({
+      key: datastore.key(dateKindName),
+      data: {
+        startDate: datastore.int(startDate),
+        endDate: datastore.int(endDate),
+      },
+    })
+    .then(() => {
+      res.status(200).send("Date interval succesfully added");
+    })
+    .catch((err) => {
+      console.error("ERROR:", err);
+      res.status(500).send(err);
+      return;
+    });
 };
 
 /* https://us-central1-fsdscheduler.cloudfunctions.net/getDateInterval
@@ -93,5 +106,4 @@ exports.getDateInterval = async (req, res) => {
     });
 };
 
-//https://us-central1-fsdscheduler.cloudfunctions.net/savelog?log=we_did_it_bois&uid=1
 //gcloud functions deploy savelog --entry-point savelog --runtime nodejs14 --trigger-http --allow-unauthenticated --project fsdscheduler
