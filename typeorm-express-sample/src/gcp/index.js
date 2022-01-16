@@ -46,7 +46,7 @@ exports.saveDateInterval = async (req, res) => {
   const startDate = req.body.startDate;
   const endDate = req.body.endDate;
 
-  if (!startDate && !endDate) {
+  if (!startDate || !endDate) {
     res.status(500).send("ERROR: Start date and end date must be specified!");
     return;
   } else if (startDate < 1 || startDate > 31 || endDate < 1 || endDate > 31) {
